@@ -115,7 +115,7 @@ public class VentanaInstaPlus extends JInternalFrame implements EscuchaMensajes 
         menu.add(Box.createVerticalStrut(18));
 
         menu.add(crearOpcion("Perfil", "Perfil"));
-        menu.add(crearOpcion("Cargar imagenes", "Cargar"));
+        menu.add(crearOpcion("Cargar imágenes", "Cargar"));
         menu.add(crearOpcion("Comentarios", "Timeline"));
         menu.add(crearOpcion("Interacciones", "Interacciones"));
         menu.add(crearOpcion("Buscar profile", "BuscarPerfil"));
@@ -131,7 +131,7 @@ public class VentanaInstaPlus extends JInternalFrame implements EscuchaMensajes 
         menu.add(crearOpcion("Editar perfil", "Editar"));
         menu.add(Box.createVerticalGlue());
 
-        BotonRedondo salir = new BotonRedondo("Cerrar sesion", Estilo.ROJO);
+        BotonRedondo salir = new BotonRedondo("Cerrar sesión", Estilo.ROJO);
         salir.setAlignmentX(0f);
         salir.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
         salir.addActionListener(e -> cerrarSesion());
@@ -253,7 +253,7 @@ public class VentanaInstaPlus extends JInternalFrame implements EscuchaMensajes 
     }
 
     private void cerrarSesion() {
-        int opcion = JOptionPane.showConfirmDialog(this, "Deseas cerrar sesion en INSTA+?", "Cerrar sesion",
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Deseas cerrar sesión en INSTA+?", "Cerrar sesión",
                 JOptionPane.YES_NO_OPTION);
 
         if (opcion != JOptionPane.YES_OPTION) {

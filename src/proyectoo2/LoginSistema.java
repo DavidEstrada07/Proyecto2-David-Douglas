@@ -94,13 +94,13 @@ public class LoginSistema extends JFrame {
 
         JCheckBox mostrar = crearCheckMostrar(campoPasswordLogin);
 
-        BotonRedondo entrar = new BotonRedondo("Iniciar sesion", Estilo.ACENTO);
+        BotonRedondo entrar = new BotonRedondo("Iniciar sesión", Estilo.ACENTO);
         entrar.addActionListener(e -> iniciarSesion());
 
         BotonRedondo irRegistro = new BotonRedondo("Crear una cuenta", Estilo.PANEL_CLARO);
         irRegistro.addActionListener(e -> tarjetas.show(contenedor, "registro"));
 
-        panel.add(Estilo.crearTitulo("Iniciar sesion"));
+        panel.add(Estilo.crearTitulo("Iniciar sesión"));
         panel.add(Box.createVerticalStrut(6));
         panel.add(Estilo.crearEtiqueta("Ingresa a tu propio sistema de archivos"));
         panel.add(Box.createVerticalStrut(26));
@@ -108,7 +108,7 @@ public class LoginSistema extends JFrame {
         panel.add(Box.createVerticalStrut(6));
         panel.add(campoUsuarioLogin);
         panel.add(Box.createVerticalStrut(14));
-        panel.add(Estilo.crearEtiqueta("Contrasena"));
+        panel.add(Estilo.crearEtiqueta("Contraseña"));
         panel.add(Box.createVerticalStrut(6));
         panel.add(campoPasswordLogin);
         panel.add(Box.createVerticalStrut(8));
@@ -136,7 +136,7 @@ public class LoginSistema extends JFrame {
         Estilo.darEstiloCampo(campoUsuarioRegistro);
         Estilo.darEstiloPassword(campoPasswordRegistro);
 
-        etiquetaReglas = new JLabel("Minimo 8 caracteres, una mayuscula, un numero y un simbolo");
+        etiquetaReglas = new JLabel("Mínimo 8 caracteres, una mayúscula, un número y un símbolo");
         etiquetaReglas.setFont(Estilo.PEQUENA);
         etiquetaReglas.setForeground(Estilo.TEXTO_GRIS);
 
@@ -152,13 +152,13 @@ public class LoginSistema extends JFrame {
 
         panel.add(Estilo.crearTitulo("Crear cuenta"));
         panel.add(Box.createVerticalStrut(6));
-        panel.add(Estilo.crearEtiqueta("Inicie sesion"));
+        panel.add(Estilo.crearEtiqueta("Inicie sesión"));
         panel.add(Box.createVerticalStrut(24));
         panel.add(Estilo.crearEtiqueta("Usuario"));
         panel.add(Box.createVerticalStrut(6));
         panel.add(campoUsuarioRegistro);
         panel.add(Box.createVerticalStrut(14));
-        panel.add(Estilo.crearEtiqueta("Contrasena"));
+        panel.add(Estilo.crearEtiqueta("Contraseña"));
         panel.add(Box.createVerticalStrut(6));
         panel.add(campoPasswordRegistro);
         panel.add(Box.createVerticalStrut(6));
@@ -177,7 +177,7 @@ public class LoginSistema extends JFrame {
     }
 
     private JCheckBox crearCheckMostrar(JPasswordField campo) {
-        JCheckBox mostrar = new JCheckBox("Mostrar contrasena");
+        JCheckBox mostrar = new JCheckBox("Mostrar contraseña");
         mostrar.setBackground(Estilo.FONDO);
         mostrar.setForeground(Estilo.TEXTO_GRIS);
         mostrar.setFont(Estilo.PEQUENA);
@@ -203,7 +203,7 @@ public class LoginSistema extends JFrame {
 
         if (password.isEmpty()) {
             etiquetaReglas.setForeground(Estilo.TEXTO_GRIS);
-            etiquetaReglas.setText("Minimo 8 caracteres, una mayuscula, un numero y un simbolo");
+            etiquetaReglas.setText("Mínimo 8 caracteres, una mayúscula, un número y un símbolo");
             return;
         }
 
@@ -221,7 +221,7 @@ public class LoginSistema extends JFrame {
         String password = new String(campoPasswordLogin.getPassword());
 
         if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Escribe tu usuario y tu contrasena");
+            JOptionPane.showMessageDialog(this, "Escribe tu usuario y tu contraseña");
             return;
         }
 
@@ -229,7 +229,7 @@ public class LoginSistema extends JFrame {
             UsuarioSistema usuario = ArchivoUsuariosSistema.buscar(username);
 
             if (usuario == null || !usuario.verificarPassword(password)) {
-                JOptionPane.showMessageDialog(this, "Usuario o contrasena incorrectos");
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
                 return;
             }
 
@@ -270,10 +270,10 @@ public class LoginSistema extends JFrame {
             ArchivoUsuariosSistema.guardar(usuario);
             SistemaArchivos.crearEspacioSistema(username);
 
-            String mensaje = "Cuenta creada. Ya puedes iniciar sesion.";
+            String mensaje = "Cuenta creada. Ya puedes iniciar sesión.";
 
             if (administrador) {
-                mensaje = "Cuenta creada como administrador del sistema.\nYa puedes iniciar sesion.";
+                mensaje = "Cuenta creada como administrador del sistema.\nYa puedes iniciar sesión.";
             }
 
             JOptionPane.showMessageDialog(this, mensaje);

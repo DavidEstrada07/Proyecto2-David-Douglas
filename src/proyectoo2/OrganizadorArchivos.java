@@ -105,7 +105,7 @@ public class OrganizadorArchivos implements Runnable {
         try {
             Thread.sleep(60);
         } catch (InterruptedException e) {
-            System.out.println("Organizacion interrumpida");
+            System.out.println("Organización interrumpida");
         }
     }
 

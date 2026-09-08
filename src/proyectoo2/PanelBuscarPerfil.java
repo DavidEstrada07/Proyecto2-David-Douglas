@@ -164,7 +164,7 @@ public class PanelBuscarPerfil extends PanelInsta {
             detalle.add(mensaje);
             detalle.add(Box.createVerticalStrut(14));
 
-            JLabel titulo = Estilo.crearEtiqueta("Sus publicaciones");
+            JLabel titulo = Estilo.crearEtiqueta("Sus publicaciónes");
             titulo.setAlignmentX(0f);
             detalle.add(titulo);
             detalle.add(Box.createVerticalStrut(6));

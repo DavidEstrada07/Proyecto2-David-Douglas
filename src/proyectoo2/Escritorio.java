@@ -49,9 +49,9 @@ public class Escritorio extends JFrame {
 
         botones.add(crearBoton("Explorador", Estilo.ACENTO));
         botones.add(crearBoton("Editor", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("Imagenes", Estilo.PANEL_CLARO));
+        botones.add(crearBoton("Imágenes", Estilo.PANEL_CLARO));
         botones.add(crearBoton("Consola", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("Musica", Estilo.PANEL_CLARO));
+        botones.add(crearBoton("Música", Estilo.PANEL_CLARO));
         botones.add(crearBoton("INSTA+", Estilo.ACENTO2));
 
         if (usuario.esAdministrador()) {
@@ -65,7 +65,7 @@ public class Escritorio extends JFrame {
         etiquetaReloj.setForeground(Estilo.TEXTO_GRIS);
         etiquetaReloj.setFont(Estilo.PEQUENA);
 
-        BotonRedondo salir = new BotonRedondo("Cerrar sesion", Estilo.ROJO);
+        BotonRedondo salir = new BotonRedondo("Cerrar sesión", Estilo.ROJO);
         salir.addActionListener(e -> cerrarSesion());
 
         derecha.add(etiquetaReloj);
@@ -88,11 +88,11 @@ public class Escritorio extends JFrame {
             mostrar(new ExploradorArchivos(usuario, this));
         } else if (nombre.equals("Editor")) {
             mostrar(new EditorTexto(carpetaInicial()));
-        } else if (nombre.equals("Imagenes")) {
+        } else if (nombre.equals("Imágenes")) {
             mostrar(new VisorImagenes(carpetaInicial()));
         } else if (nombre.equals("Consola")) {
             mostrar(new ConsolaComandos(carpetaInicial()));
-        } else if (nombre.equals("Musica")) {
+        } else if (nombre.equals("Música")) {
             mostrar(new ReproductorMusica(carpetaInicial()));
         } else if (nombre.equals("INSTA+")) {
             mostrar(new VentanaInstaPlus());
@@ -127,9 +127,9 @@ public class Escritorio extends JFrame {
         JPanel panel = new JPanel(new java.awt.GridLayout(0, 1, 4, 4));
         panel.add(new JLabel("Usuario nuevo:"));
         panel.add(campoUsuario);
-        panel.add(new JLabel("Contrasena:"));
+        panel.add(new JLabel("Contraseña:"));
         panel.add(campoPassword);
-        panel.add(new JLabel("8 caracteres, mayuscula, numero y simbolo"));
+        panel.add(new JLabel("8 caracteres, mayúscula, número y símbolo"));
 
         int opcion = JOptionPane.showConfirmDialog(this, panel, "Crear usuario del sistema",
                 JOptionPane.OK_CANCEL_OPTION);
@@ -197,7 +197,7 @@ public class Escritorio extends JFrame {
     }
 
     private void cerrarSesion() {
-        int opcion = JOptionPane.showConfirmDialog(this, "Deseas cerrar la sesion?", "Cerrar sesion",
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Deseas cerrar la sesión?", "Cerrar sesión",
                 JOptionPane.YES_NO_OPTION);
 
         if (opcion == JOptionPane.YES_OPTION) {

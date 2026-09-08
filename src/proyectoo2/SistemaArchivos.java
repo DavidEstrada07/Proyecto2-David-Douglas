@@ -64,7 +64,7 @@ public class SistemaArchivos {
         String raiz = carpetaInsta(username);
 
         crearCarpeta(raiz);
-        crearCarpeta(raiz + File.separator + "imagenes");
+        crearCarpeta(raiz + File.separator + "imágenes");
         crearCarpeta(raiz + File.separator + "folders_personales");
         crearCarpeta(raiz + File.separator + "stickers_personales");
     }

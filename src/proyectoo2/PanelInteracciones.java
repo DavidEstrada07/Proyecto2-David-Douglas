@@ -37,7 +37,7 @@ public class PanelInteracciones extends PanelInsta {
             ListaEnlazada menciones = ArchivoPublicaciones.buscarMenciones(ventana.getUsuario().getUsername());
 
             if (menciones.estaVacia()) {
-                lista.add(Estilo.crearEtiqueta("Nadie te ha mencionado todavia"));
+                lista.add(Estilo.crearEtiqueta("Nadie te ha mencionado todavía"));
             }
 
             for (int i = 0; i < menciones.getTamano(); i++) {

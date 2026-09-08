@@ -22,7 +22,7 @@ public class VisorImagenes extends JInternalFrame {
     private String carpeta;
 
     public VisorImagenes(String carpeta) {
-        super("Visor de imagenes", true, true, true, true);
+        super("Visor de imágenes", true, true, true, true);
 
         this.carpeta = carpeta;
         imagenes = new ListaEnlazada();
@@ -31,7 +31,7 @@ public class VisorImagenes extends JInternalFrame {
         setSize(620, 520);
         setLocation(140, 40);
 
-        lienzo = new JLabel("Cargando imagenes...", SwingConstants.CENTER);
+        lienzo = new JLabel("Cargando imágenes...", SwingConstants.CENTER);
         lienzo.setForeground(Estilo.TEXTO_GRIS);
         lienzo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -128,7 +128,7 @@ public class VisorImagenes extends JInternalFrame {
     private void mostrar() {
         if (imagenes.estaVacia()) {
             lienzo.setIcon(null);
-            lienzo.setText("No hay imagenes en esta carpeta");
+            lienzo.setText("No hay imágenes en esta carpeta");
             titulo.setText("");
             return;
         }

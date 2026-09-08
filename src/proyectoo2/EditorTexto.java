@@ -8,6 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;
+import javax.swing.JDialog;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
@@ -26,6 +30,7 @@ public class EditorTexto extends JInternalFrame {
     private JComboBox<String> tamanos;
     private String carpeta;
     private File archivoActual;
+    private boolean modificado;
 
     public EditorTexto(String carpeta) {
         super("Editor de texto", true, true, true, true);
@@ -41,6 +46,23 @@ public class EditorTexto extends JInternalFrame {
         area.setCaretColor(Estilo.TEXTO);
         area.setFont(Estilo.NORMAL);
         area.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        area.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                modificado = true;
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                modificado = true;
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                modificado = true;
+            }
+        });
 
         JPanel contenido = new JPanel(new BorderLayout());
         contenido.setBackground(Estilo.PANEL);
@@ -71,14 +93,11 @@ public class EditorTexto extends JInternalFrame {
         guardar.addActionListener(e -> guardar());
 
         BotonRedondo nuevo = new BotonRedondo("Nuevo", Estilo.PANEL);
-        nuevo.addActionListener(e -> {
-            area.setText("");
-            archivoActual = null;
-        });
+        nuevo.addActionListener(e -> nuevoDocumento());
 
         barra.add(Estilo.crearEtiqueta("Fuente:"));
         barra.add(fuentes);
-        barra.add(Estilo.crearEtiqueta("Tamano:"));
+        barra.add(Estilo.crearEtiqueta("Tamaño:"));
         barra.add(tamanos);
         barra.add(color);
         barra.add(nuevo);
@@ -101,7 +120,19 @@ public class EditorTexto extends JInternalFrame {
     }
 
     private void cambiarColor() {
-        Color color = JColorChooser.showDialog(this, "Color del texto", Color.WHITE);
+        JColorChooser selector = new JColorChooser(Color.WHITE);
+        AbstractColorChooserPanel[] paneles = selector.getChooserPanels();
+
+        for (int i = 1; i < paneles.length; i++) {
+            selector.removeChooserPanel(paneles[i]);
+        }
+
+        selector.setPreviewPanel(new JPanel());
+
+        JDialog dialogo = JColorChooser.createDialog(this, "Color del texto", true, selector, null, null);
+        dialogo.setVisible(true);
+
+        Color color = selector.getColor();
 
         if (color == null) {
             return;
@@ -138,6 +169,7 @@ public class EditorTexto extends JInternalFrame {
             area.setDocument(area.getEditorKit().createDefaultDocument());
             new RTFEditorKit().read(entrada, area.getDocument(), 0);
             archivoActual = archivo;
+            modificado = false;
             setTitle("Editor de texto - " + archivo.getName());
         } catch (Exception e) {
             leerComoTextoSimple(archivo);
@@ -154,10 +186,41 @@ public class EditorTexto extends JInternalFrame {
 
             area.setText(texto);
             archivoActual = archivo;
+            modificado = false;
             setTitle("Editor de texto - " + archivo.getName());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "No se pudo abrir el archivo");
         }
+    }
+
+    private void nuevoDocumento() {
+        if (!guardarSiHayCambios()) {
+            return;
+        }
+
+        area.setText("");
+        archivoActual = null;
+        modificado = false;
+    }
+
+    private boolean guardarSiHayCambios() {
+        if (!modificado || area.getText().trim().isEmpty()) {
+            return true;
+        }
+
+        int opcion = JOptionPane.showConfirmDialog(this,
+                "Tienes cambios sin guardar. ¿¿Deseas guardarlos?", "Editor de texto",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if (opcion == JOptionPane.CANCEL_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
+            return false;
+        }
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            guardar();
+        }
+
+        return true;
     }
 
     private void guardar() {
@@ -180,6 +243,7 @@ public class EditorTexto extends JInternalFrame {
         try (FileOutputStream salida = new FileOutputStream(destino)) {
             new RTFEditorKit().write(salida, area.getDocument(), 0, area.getDocument().getLength());
             archivoActual = destino;
+            modificado = false;
             setTitle("Editor de texto - " + destino.getName());
             JOptionPane.showMessageDialog(this, "Archivo guardado con su formato");
         } catch (Exception e) {

@@ -99,7 +99,7 @@ public class PanelTimeline extends PanelInsta {
         BotonRedondo publicar = new BotonRedondo("Publicar", Estilo.ACENTO2);
         publicar.addActionListener(e -> publicar());
 
-        abajo.add(Estilo.crearEtiqueta("Maximo 140 caracteres. Usa # para hashtags y @ para mencionar."));
+        abajo.add(Estilo.crearEtiqueta("Máximo 140 caracteres. Usa # para hashtags y @ para mencionar."));
         abajo.add(publicar);
 
         caja.add(new JScrollPane(escribir), BorderLayout.CENTER);
@@ -141,7 +141,7 @@ public class PanelTimeline extends PanelInsta {
             }
 
             if (publicaciones.estaVacia()) {
-                lista.add(Estilo.crearEtiqueta("Todavia no hay publicaciones. Publica algo para empezar."));
+                lista.add(Estilo.crearEtiqueta("Todavía no hay publicaciónes. Publica algo para empezar."));
             }
 
             for (int i = 0; i < publicaciones.getTamano(); i++) {

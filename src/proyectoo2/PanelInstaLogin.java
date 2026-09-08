@@ -63,7 +63,7 @@ public class PanelInstaLogin extends PanelInsta {
         entrar.addActionListener(e -> iniciarSesion());
 
         BotonRedondo crear = new BotonRedondo("Crear cuenta", Estilo.PANEL_CLARO);
-        crear.addActionListener(e -> tarjetas.show(contenedor, "registro"));
+        crear.addActionListener(e -> mostrarRegistro());
 
         JLabel titulo = Estilo.crearTitulo("INSTA+");
         titulo.setForeground(Estilo.ACENTO2);
@@ -110,7 +110,7 @@ public class PanelInstaLogin extends PanelInsta {
         limitar(edadRegistro);
         generoRegistro.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
 
-        reglas = new JLabel("Minimo 8 caracteres, una mayuscula, un numero y un simbolo");
+        reglas = new JLabel("Mínimo 8 caracteres, una mayúscula, un número y un símbolo");
         reglas.setFont(Estilo.PEQUENA);
         reglas.setForeground(Estilo.TEXTO_GRIS);
 
@@ -162,7 +162,7 @@ public class PanelInstaLogin extends PanelInsta {
     }
 
     private JCheckBox crearCheck(JPasswordField campo) {
-        JCheckBox mostrar = new JCheckBox("Mostrar contrasena");
+        JCheckBox mostrar = new JCheckBox("Mostrar contraseña");
         mostrar.setBackground(Estilo.FONDO);
         mostrar.setForeground(Estilo.TEXTO_GRIS);
         mostrar.setFont(Estilo.PEQUENA);
@@ -188,7 +188,7 @@ public class PanelInstaLogin extends PanelInsta {
 
         if (password.isEmpty()) {
             reglas.setForeground(Estilo.TEXTO_GRIS);
-            reglas.setText("Minimo 8 caracteres, una mayuscula, un numero y un simbolo");
+            reglas.setText("Mínimo 8 caracteres, una mayúscula, un número y un símbolo");
             return;
         }
 
@@ -218,11 +218,11 @@ public class PanelInstaLogin extends PanelInsta {
 
             if (usuario == null) {
                 int opcion = JOptionPane.showConfirmDialog(this,
-                        "Datos incorrectos. Deseas crear una cuenta nueva?", "INSTA+",
+                        "Datos incorrectos. ¿Deseas crear una cuenta nueva?", "INSTA+",
                         JOptionPane.YES_NO_OPTION);
 
                 if (opcion == JOptionPane.YES_OPTION) {
-                    tarjetas.show(contenedor, "registro");
+                    mostrarRegistro();
                 }
 
                 return;
@@ -235,6 +235,21 @@ public class PanelInstaLogin extends PanelInsta {
         } catch (ArchivoCorruptoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    public void mostrarRegistro() {
+        limpiarRegistro();
+        tarjetas.show(contenedor, "registro");
+    }
+
+    private void limpiarRegistro() {
+        nombreRegistro.setText("");
+        usuarioRegistro.setText("");
+        passwordRegistro.setText("");
+        edadRegistro.setText("");
+        generoRegistro.setSelectedIndex(0);
+        rutaFoto.setText("Sin foto seleccionada");
+        revisarReglas();
     }
 
     private void registrar() {
@@ -259,16 +274,16 @@ public class PanelInstaLogin extends PanelInsta {
 
             ArchivoUsuarios.guardar(usuario);
 
-            JOptionPane.showMessageDialog(this, "Cuenta creada, ya puedes iniciar sesion");
+            JOptionPane.showMessageDialog(this, "Cuenta creada, ya puedes iniciar sesión");
             usuarioLogin.setText(usuario.getUsername());
             tarjetas.show(contenedor, "login");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "La edad debe ser un numero");
+            JOptionPane.showMessageDialog(this, "La edad debe ser un número");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (UsernameDuplicadoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (ArchivoCorruptoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }

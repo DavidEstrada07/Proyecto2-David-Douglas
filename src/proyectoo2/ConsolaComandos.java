@@ -107,7 +107,7 @@ public class ConsolaComandos extends JInternalFrame {
         File[] archivos = carpetaActual.listFiles();
 
         if (archivos == null || archivos.length == 0) {
-            escribir("La carpeta esta vacia");
+            escribir("La carpeta está vacía");
             return;
         }
 
@@ -144,7 +144,7 @@ public class ConsolaComandos extends JInternalFrame {
         if (carpeta.delete()) {
             escribir("Eliminado: " + nombre);
         } else {
-            escribir("No se pudo eliminar (revisa que este vacia)");
+            escribir("No se pudo eliminar (revisa que este vacía)");
         }
     }
 

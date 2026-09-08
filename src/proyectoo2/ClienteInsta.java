@@ -19,7 +19,7 @@ public class ClienteInsta extends Thread {
         conectado = false;
 
         try {
-            socket = new Socket("localhost", ServidorInsta.PUERTO);
+            socket = new Socket("127.0.0.1", ServidorInsta.PUERTO);
             entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             salida = new PrintWriter(socket.getOutputStream(), true);
 

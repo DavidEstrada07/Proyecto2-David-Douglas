@@ -88,7 +88,7 @@ public class PanelEditarPerfil extends PanelInsta {
             ArchivoUsuarios.actualizar(usuario);
             JOptionPane.showMessageDialog(this, "Perfil actualizado");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "La edad debe ser un numero");
+            JOptionPane.showMessageDialog(this, "La edad debe ser un número");
         } catch (ArchivoCorruptoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (IllegalArgumentException e) {

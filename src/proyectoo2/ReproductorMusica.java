@@ -46,7 +46,7 @@ public class ReproductorMusica extends JInternalFrame {
     private String carpeta;
 
     public ReproductorMusica(String carpeta) {
-        super("Reproductor de musica", true, true, true, true);
+        super("Reproductor de música", true, true, true, true);
 
         this.carpeta = carpeta;
         canciones = new ListaEnlazada();
@@ -110,7 +110,7 @@ public class ReproductorMusica extends JInternalFrame {
         caratula.setAlignmentX(0.5f);
         caratula.setPreferredSize(new Dimension(200, 200));
 
-        descripcion = new JLabel("Selecciona una cancion", SwingConstants.CENTER);
+        descripcion = new JLabel("Selecciona una canción", SwingConstants.CENTER);
         descripcion.setAlignmentX(0.5f);
         descripcion.setForeground(Estilo.TEXTO_GRIS);
         descripcion.setFont(Estilo.NORMAL);
@@ -172,7 +172,7 @@ public class ReproductorMusica extends JInternalFrame {
         agregarDeCarpeta(new File(carpeta), texto);
 
         if (modelo.isEmpty()) {
-            modelo.addElement("(No hay musica en tu carpeta)");
+            modelo.addElement("(No hay música en tu carpeta)");
         }
     }
 

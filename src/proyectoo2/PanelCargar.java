@@ -61,7 +61,7 @@ public class PanelCargar extends PanelInsta {
         derecha.add(Box.createVerticalStrut(10));
         derecha.add(elegir);
         derecha.add(Box.createVerticalStrut(14));
-        derecha.add(Estilo.crearEtiqueta("Descripcion (maximo 220, usa # y @)"));
+        derecha.add(Estilo.crearEtiqueta("Descripción (máximo 220, usa # y @)"));
         derecha.add(new JScrollPane(descripcion));
         derecha.add(Box.createVerticalStrut(12));
         derecha.add(Estilo.crearEtiqueta("Carpeta personal (Viajes, Familia, Memes...)"));
@@ -104,14 +104,14 @@ public class PanelCargar extends PanelInsta {
         String texto = descripcion.getText().trim();
 
         if (texto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Escribe una descripcion");
+            JOptionPane.showMessageDialog(this, "Escribe una descripción");
             return;
         }
 
         try {
             String usuario = ventana.getUsuario().getUsername();
             String carpeta = carpetaPersonal.getText().trim();
-            String destino = SistemaArchivos.carpetaInsta(usuario) + File.separator + "imagenes";
+            String destino = SistemaArchivos.carpetaInsta(usuario) + File.separator + "imágenes";
 
             if (!carpeta.isEmpty()) {
                 destino = SistemaArchivos.carpetaInsta(usuario) + File.separator + "folders_personales"
@@ -124,7 +124,7 @@ public class PanelCargar extends PanelInsta {
 
             ArchivoPublicaciones.publicar(new Publicacion(usuario, texto, copia.getPath(), carpeta));
 
-            JOptionPane.showMessageDialog(this, "Publicacion creada");
+            JOptionPane.showMessageDialog(this, "Publicación creada");
             limpiar();
             ventana.mostrarSeccion("Timeline");
         } catch (ArchivoCorruptoException e) {

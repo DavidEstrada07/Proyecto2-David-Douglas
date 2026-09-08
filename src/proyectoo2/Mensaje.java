@@ -31,7 +31,7 @@ public class Mensaje implements Serializable {
 
     private void verificarTexto(String contenido) {
         if (contenido.trim().isEmpty()) {
-            throw new IllegalArgumentException("El mensaje no puede estar vacio");
+            throw new IllegalArgumentException("El mensaje no puede estar vacío");
         }
 
         if (contenido.length() > MAX_MENSAJE) {

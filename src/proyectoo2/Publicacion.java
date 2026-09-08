@@ -36,11 +36,11 @@ public class Publicacion implements Serializable {
 
     private void verificarContenido(String contenido, int maximo) {
         if (contenido.trim().isEmpty()) {
-            throw new IllegalArgumentException("La publicacion no puede estar vacia");
+            throw new IllegalArgumentException("La publicación no puede estar vacía");
         }
 
         if (contenido.length() > maximo) {
-            throw new IllegalArgumentException("La publicacion no puede pasar de " + maximo + " caracteres");
+            throw new IllegalArgumentException("La publicación no puede pasar de " + maximo + " caracteres");
         }
     }
 

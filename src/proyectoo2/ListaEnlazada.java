@@ -46,7 +46,7 @@ public class ListaEnlazada {
 
     public Object obtener(int posicion) {
         if (posicion < 0 || posicion >= tamano) {
-            throw new IndexOutOfBoundsException("Posicion invalida");
+            throw new IndexOutOfBoundsException("Posición inválida");
         }
 
         Nodo actual = inicio;

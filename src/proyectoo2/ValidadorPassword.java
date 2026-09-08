@@ -45,21 +45,21 @@ public class ValidadorPassword {
 
     public static String obtenerMensaje(String password) {
         if (password.length() < MINIMO) {
-            return "La contrasena debe tener al menos " + MINIMO + " caracteres";
+            return "La contraseña debe tener al menos " + MINIMO + " caracteres";
         }
 
         if (!tieneMayuscula(password)) {
-            return "La contrasena debe tener al menos una letra mayuscula";
+            return "La contraseña debe tener al menos una letra mayúscula";
         }
 
         if (!tieneNumero(password)) {
-            return "La contrasena debe tener al menos un numero";
+            return "La contraseña debe tener al menos un número";
         }
 
         if (!tieneSimbolo(password)) {
-            return "La contrasena debe tener al menos un simbolo";
+            return "La contraseña debe tener al menos un símbolo";
         }
 
-        return "Contrasena valida";
+        return "Contraseña válida";
     }
 }

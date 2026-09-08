@@ -28,6 +28,8 @@ public class PanelInbox extends PanelInsta {
     private JTextField campo;
     private JLabel titulo;
     private JPanel galeria;
+    private JPanel personas;
+    private JScrollPane scrollPersonas;
     private JScrollPane scrollGaleria;
     private String contactoActual;
 
@@ -55,7 +57,7 @@ public class PanelInbox extends PanelInsta {
         scrollChat.getViewport().setBackground(Estilo.FONDO);
         scrollChat.getVerticalScrollBar().setUnitIncrement(16);
 
-        titulo = new JLabel("Selecciona una conversacion");
+        titulo = new JLabel("Selecciona una conversación");
         titulo.setFont(Estilo.SUBTITULO);
         titulo.setForeground(Estilo.TEXTO);
 
@@ -73,10 +75,26 @@ public class PanelInbox extends PanelInsta {
         JPanel panel = new JPanel(new BorderLayout(6, 6));
         panel.setBackground(Estilo.FONDO);
 
-        BotonRedondo nueva = new BotonRedondo("Nueva conversacion", Estilo.ACENTO);
+        BotonRedondo nueva = new BotonRedondo("Nueva conversación", Estilo.ACENTO);
         nueva.addActionListener(e -> nuevaConversacion());
 
-        panel.add(nueva, BorderLayout.NORTH);
+        personas = new JPanel();
+        personas.setLayout(new BoxLayout(personas, BoxLayout.Y_AXIS));
+        personas.setBackground(Estilo.PANEL);
+        personas.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+
+        scrollPersonas = new JScrollPane(personas);
+        scrollPersonas.setBorder(null);
+        scrollPersonas.setPreferredSize(new Dimension(220, 170));
+        scrollPersonas.getViewport().setBackground(Estilo.PANEL);
+        scrollPersonas.setVisible(false);
+
+        JPanel arriba = new JPanel(new BorderLayout(6, 6));
+        arriba.setBackground(Estilo.FONDO);
+        arriba.add(nueva, BorderLayout.NORTH);
+        arriba.add(scrollPersonas, BorderLayout.CENTER);
+
+        panel.add(arriba, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
 
         return panel;
@@ -86,7 +104,7 @@ public class PanelInbox extends PanelInsta {
         JPanel encabezado = new JPanel(new BorderLayout());
         encabezado.setBackground(Estilo.FONDO);
 
-        BotonRedondo borrar = new BotonRedondo("Eliminar conversacion", Estilo.ROJO);
+        BotonRedondo borrar = new BotonRedondo("Eliminar conversación", Estilo.ROJO);
         borrar.addActionListener(e -> eliminarConversacion());
 
         encabezado.add(titulo, BorderLayout.WEST);
@@ -137,29 +155,64 @@ public class PanelInbox extends PanelInsta {
     }
 
     private void nuevaConversacion() {
-        String username = JOptionPane.showInputDialog(this, "Username con quien quieres hablar:");
-
-        if (username == null || username.trim().isEmpty()) {
+        if (scrollPersonas.isVisible()) {
+            cerrarPersonas();
             return;
         }
 
-        try {
-            Usuario usuario = ArchivoUsuarios.buscar(username.trim());
+        personas.removeAll();
 
-            if (usuario == null || !usuario.estaActiva()) {
-                JOptionPane.showMessageDialog(this, "Ese usuario no existe o esta desactivado");
-                return;
+        try {
+            String yo = ventana.getUsuario().getUsername();
+            ListaEnlazada usuarios = ArchivoUsuarios.listar();
+            int encontrados = 0;
+
+            for (int i = 0; i < usuarios.getTamano(); i++) {
+                Usuario usuario = (Usuario) usuarios.obtener(i);
+
+                if (usuario.estaActiva() && !usuario.getUsername().equalsIgnoreCase(yo)) {
+                    personas.add(crearBotonPersona(usuario.getUsername()));
+                    personas.add(Box.createVerticalStrut(4));
+                    encontrados++;
+                }
             }
 
-            abrirChat(usuario.getUsername());
+            if (encontrados == 0) {
+                personas.add(Estilo.crearEtiqueta("No hay otras cuentas todavía"));
+            }
         } catch (ArchivoCorruptoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            personas.add(Estilo.crearEtiqueta(e.getMessage()));
         }
+
+        scrollPersonas.setVisible(true);
+        personas.revalidate();
+        personas.repaint();
+        revalidate();
+        repaint();
+    }
+
+    private void cerrarPersonas() {
+        scrollPersonas.setVisible(false);
+        revalidate();
+        repaint();
+    }
+
+    private BotonRedondo crearBotonPersona(String username) {
+        BotonRedondo boton = new BotonRedondo("@" + username, Estilo.PANEL_CLARO);
+
+        boton.compactar();
+        boton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+        boton.addActionListener(e -> {
+            cerrarPersonas();
+            abrirChat(username);
+        });
+
+        return boton;
     }
 
     public void abrirChat(String username) {
         contactoActual = username;
-        titulo.setText("Conversacion con @" + username);
+        titulo.setText("Conversación con @" + username);
 
         try {
             ArchivoMensajes.marcarLeidos(ventana.getUsuario().getUsername(), username);
@@ -269,7 +322,7 @@ public class PanelInbox extends PanelInsta {
 
     private void enviar(String contenido, TipoMensaje tipo) {
         if (contactoActual == null) {
-            JOptionPane.showMessageDialog(this, "Primero abre una conversacion");
+            JOptionPane.showMessageDialog(this, "Primero abre una conversación");
             return;
         }
 
@@ -284,6 +337,7 @@ public class PanelInbox extends PanelInsta {
 
         if (cliente != null && cliente.estaConectado()) {
             cliente.enviarMensaje(yo, contactoActual, tipo, contenido);
+            refrescarDespuesDeEnviar();
             return;
         }
 
@@ -295,9 +349,19 @@ public class PanelInbox extends PanelInsta {
         }
     }
 
+    private void refrescarDespuesDeEnviar() {
+        javax.swing.Timer temporizador = new javax.swing.Timer(400, e -> {
+            mostrarChat();
+            cargarContactos();
+        });
+
+        temporizador.setRepeats(false);
+        temporizador.start();
+    }
+
     private void abrirGaleria() {
         if (contactoActual == null) {
-            JOptionPane.showMessageDialog(this, "Primero abre una conversacion");
+            JOptionPane.showMessageDialog(this, "Primero abre una conversación");
             return;
         }
 
@@ -406,7 +470,7 @@ public class PanelInbox extends PanelInsta {
             return;
         }
 
-        int opcion = JOptionPane.showConfirmDialog(this, "Eliminar toda la conversacion?", "Eliminar",
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Eliminar toda la conversación?", "Eliminar",
                 JOptionPane.YES_NO_OPTION);
 
         if (opcion != JOptionPane.YES_OPTION) {
@@ -416,7 +480,7 @@ public class PanelInbox extends PanelInsta {
         try {
             ArchivoMensajes.eliminarConversacion(ventana.getUsuario().getUsername(), contactoActual);
             contactoActual = null;
-            titulo.setText("Selecciona una conversacion");
+            titulo.setText("Selecciona una conversación");
             mostrarChat();
             cargarContactos();
         } catch (ArchivoCorruptoException e) {
@@ -441,7 +505,7 @@ public class PanelInbox extends PanelInsta {
             }
 
             if (lista.estaVacia()) {
-                contactos.add(Estilo.crearEtiqueta("Sin conversaciones"));
+                contactos.add(Estilo.crearEtiqueta("Sin conversaciónes"));
             }
 
             for (int i = 0; i < lista.getTamano(); i++) {

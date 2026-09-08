@@ -74,7 +74,7 @@ public class ExploradorArchivos extends JInternalFrame {
         fila2.add(crearBoton("Pegar", Estilo.PANEL, e -> pegar()));
         fila2.add(crearBoton("Eliminar", Estilo.ROJO, e -> eliminar()));
 
-        orden = new JComboBox<>(new String[]{"Nombre", "Fecha", "Tipo", "Tamano"});
+        orden = new JComboBox<>(new String[]{"Nombre", "Fecha", "Tipo", "Tamaño"});
         orden.setBackground(Estilo.PANEL);
         orden.setForeground(Estilo.TEXTO);
         orden.setFont(Estilo.NORMAL);
@@ -149,7 +149,7 @@ public class ExploradorArchivos extends JInternalFrame {
             return uno.lastModified() > otro.lastModified();
         }
 
-        if (criterio.equals("Tamano")) {
+        if (criterio.equals("Tamaño")) {
             return uno.length() > otro.length();
         }
 

@@ -59,7 +59,7 @@ public class PanelBuscarHashtag extends PanelInsta {
             ListaEnlazada resultado = ArchivoPublicaciones.buscarPorHashtag(palabra);
 
             if (resultado.estaVacia()) {
-                lista.add(Estilo.crearEtiqueta("No hay publicaciones con #" + palabra));
+                lista.add(Estilo.crearEtiqueta("No hay publicaciónes con #" + palabra));
             }
 
             for (int i = 0; i < resultado.getTamano(); i++) {

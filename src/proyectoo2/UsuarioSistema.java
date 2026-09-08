@@ -21,7 +21,7 @@ public class UsuarioSistema {
 
     private void verificarDatos(String username, String password) {
         if (username.trim().isEmpty()) {
-            throw new IllegalArgumentException("El usuario no puede estar vacio");
+            throw new IllegalArgumentException("El usuario no puede estar vacío");
         }
 
         if (username.length() > MAX_USERNAME) {
@@ -29,11 +29,11 @@ public class UsuarioSistema {
         }
 
         if (password.trim().isEmpty()) {
-            throw new IllegalArgumentException("La contrasena no puede estar vacia");
+            throw new IllegalArgumentException("La contraseña no puede estar vacía");
         }
 
         if (password.length() > MAX_PASSWORD) {
-            throw new IllegalArgumentException("La contrasena no puede pasar de " + MAX_PASSWORD + " caracteres");
+            throw new IllegalArgumentException("La contraseña no puede pasar de " + MAX_PASSWORD + " caracteres");
         }
     }
 

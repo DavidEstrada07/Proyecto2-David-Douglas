@@ -38,10 +38,26 @@ public class Usuario implements Serializable {
 
     public void setNombreCompleto(String nombreCompleto) {
         if (nombreCompleto.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacio");
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+
+        if (!soloLetras(nombreCompleto)) {
+            throw new IllegalArgumentException("El nombre solo puede tener letras y espacios");
         }
 
         this.nombreCompleto = nombreCompleto;
+    }
+
+    private boolean soloLetras(String texto) {
+        for (int i = 0; i < texto.length(); i++) {
+            char letra = texto.charAt(i);
+
+            if (!Character.isLetter(letra) && letra != ' ') {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public char getGenero() {
@@ -64,7 +80,7 @@ public class Usuario implements Serializable {
 
     public void setPassword(String password) {
         if (password.trim().isEmpty()) {
-            throw new IllegalArgumentException("La contrasena no puede estar vacia");
+            throw new IllegalArgumentException("La contraseña no puede estar vacía");
         }
 
         this.password = password;
@@ -76,7 +92,7 @@ public class Usuario implements Serializable {
 
     public void setEdad(int edad) {
         if (edad < 0) {
-            throw new IllegalArgumentException("Edad invalida");
+            throw new IllegalArgumentException("Edad inválida");
         }
 
         this.edad = edad;
