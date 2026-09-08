@@ -241,6 +241,8 @@ public class PanelInbox extends PanelInsta {
                 chat.add(crearBurbuja((Mensaje) mensajes.obtener(i), yo));
                 chat.add(Box.createVerticalStrut(6));
             }
+
+            chat.add(Box.createVerticalGlue());
         } catch (ArchivoCorruptoException e) {
             chat.add(Estilo.crearEtiqueta(e.getMessage()));
         }
@@ -248,10 +250,22 @@ public class PanelInbox extends PanelInsta {
         chat.revalidate();
         chat.repaint();
 
+        bajarAlFinal();
+    }
+
+    private void bajarAlFinal() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                scrollChat.getVerticalScrollBar().setValue(scrollChat.getVerticalScrollBar().getMaximum());
+                scrollChat.validate();
+
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        javax.swing.JScrollBar barra = scrollChat.getVerticalScrollBar();
+                        barra.setValue(barra.getMaximum());
+                    }
+                });
             }
         });
     }
@@ -305,6 +319,7 @@ public class PanelInbox extends PanelInsta {
         fila.setBackground(Estilo.FONDO);
         fila.setAlignmentX(Component.LEFT_ALIGNMENT);
         fila.add(burbuja);
+        fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, fila.getPreferredSize().height));
 
         return fila;
     }
@@ -336,8 +351,9 @@ public class PanelInbox extends PanelInsta {
         ClienteInsta cliente = ventana.getCliente();
 
         if (cliente != null && cliente.estaConectado()) {
+            int antes = contarMensajes();
             cliente.enviarMensaje(yo, contactoActual, tipo, contenido);
-            refrescarDespuesDeEnviar();
+            revisarSiLlego(antes, contenido, tipo);
             return;
         }
 
@@ -349,14 +365,34 @@ public class PanelInbox extends PanelInsta {
         }
     }
 
-    private void refrescarDespuesDeEnviar() {
-        javax.swing.Timer temporizador = new javax.swing.Timer(400, e -> {
+    private int contarMensajes() {
+        try {
+            return ArchivoMensajes.conversacion(ventana.getUsuario().getUsername(), contactoActual).getTamano();
+        } catch (ArchivoCorruptoException e) {
+            return 0;
+        }
+    }
+
+    private void revisarSiLlego(int antes, String contenido, TipoMensaje tipo) {
+        javax.swing.Timer temporizador = new javax.swing.Timer(500, e -> {
+            if (contarMensajes() == antes) {
+                guardarAquiMismo(contenido, tipo);
+            }
+
             mostrarChat();
             cargarContactos();
         });
 
         temporizador.setRepeats(false);
         temporizador.start();
+    }
+
+    private void guardarAquiMismo(String contenido, TipoMensaje tipo) {
+        try {
+            ArchivoMensajes.guardar(new Mensaje(ventana.getUsuario().getUsername(), contactoActual, contenido, tipo));
+        } catch (ArchivoCorruptoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     private void abrirGaleria() {
@@ -451,7 +487,7 @@ public class PanelInbox extends PanelInsta {
 
     private void copiar(File origen, File destino) {
         try (FileInputStream entrada = new FileInputStream(origen);
-                FileOutputStream salida = new FileOutputStream(destino)) {
+             FileOutputStream salida = new FileOutputStream(destino)) {
 
             byte[] datos = new byte[4096];
             int leidos = entrada.read(datos);
