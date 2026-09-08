@@ -152,7 +152,7 @@ public class LoginSistema extends JFrame {
 
         panel.add(Estilo.crearTitulo("Crear cuenta"));
         panel.add(Box.createVerticalStrut(6));
-        panel.add(Estilo.crearEtiqueta("Se creara tu carpeta personal dentro de Z:\\"));
+        panel.add(Estilo.crearEtiqueta("Inicie sesion"));
         panel.add(Box.createVerticalStrut(24));
         panel.add(Estilo.crearEtiqueta("Usuario"));
         panel.add(Box.createVerticalStrut(6));
