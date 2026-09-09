@@ -487,7 +487,7 @@ public class PanelInbox extends PanelInsta {
 
     private void copiar(File origen, File destino) {
         try (FileInputStream entrada = new FileInputStream(origen);
-             FileOutputStream salida = new FileOutputStream(destino)) {
+                FileOutputStream salida = new FileOutputStream(destino)) {
 
             byte[] datos = new byte[4096];
             int leidos = entrada.read(datos);

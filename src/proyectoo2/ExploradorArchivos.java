@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -69,6 +70,7 @@ public class ExploradorArchivos extends JInternalFrame {
         fila1.add(crearBoton("Organizar", Estilo.ACENTO, e -> organizar()));
         fila1.add(crearBoton("Nueva carpeta", Estilo.PANEL, e -> crearCarpeta()));
         fila1.add(crearBoton("Renombrar", Estilo.PANEL, e -> renombrar()));
+        fila1.add(crearBoton("Importar", Estilo.VERDE, e -> importar()));
 
         fila2.add(crearBoton("Copiar", Estilo.PANEL, e -> copiar()));
         fila2.add(crearBoton("Pegar", Estilo.PANEL, e -> pegar()));
@@ -269,8 +271,46 @@ public class ExploradorArchivos extends JInternalFrame {
             return;
         }
 
-        try (FileInputStream entrada = new FileInputStream(copiado);
-                FileOutputStream salida = new FileOutputStream(new File(destino, copiado.getName()))) {
+        copiarArchivo(copiado, new File(destino, copiado.getName()));
+        recargar();
+    }
+
+    private void importar() {
+        File destino = seleccionado();
+
+        if (destino == null) {
+            JOptionPane.showMessageDialog(this, "Primero selecciona la carpeta donde quieres guardarlo");
+            return;
+        }
+
+        if (!destino.isDirectory()) {
+            destino = destino.getParentFile();
+        }
+
+        JFileChooser selector = new JFileChooser();
+        selector.setDialogTitle("Elige los archivos de tu computadora");
+        selector.setMultiSelectionEnabled(true);
+
+        if (selector.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File[] elegidos = selector.getSelectedFiles();
+        int copiados = 0;
+
+        for (int i = 0; i < elegidos.length; i++) {
+            if (copiarArchivo(elegidos[i], new File(destino, elegidos[i].getName()))) {
+                copiados++;
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Se importaron " + copiados + " archivos a " + destino.getName());
+        recargar();
+    }
+
+    private boolean copiarArchivo(File origen, File destino) {
+        try (FileInputStream entrada = new FileInputStream(origen);
+                FileOutputStream salida = new FileOutputStream(destino)) {
 
             byte[] datos = new byte[4096];
             int leidos = entrada.read(datos);
@@ -279,11 +319,12 @@ public class ExploradorArchivos extends JInternalFrame {
                 salida.write(datos, 0, leidos);
                 leidos = entrada.read(datos);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "No se pudo pegar: " + e.getMessage());
-        }
 
-        recargar();
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo copiar " + origen.getName());
+            return false;
+        }
     }
 
     private void eliminar() {

@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -152,17 +156,62 @@ public class ReproductorMusica extends JInternalFrame {
         BotonRedondo adelante = new BotonRedondo("10s >>", Estilo.PANEL_CLARO);
         adelante.addActionListener(e -> saltar(SALTO));
 
+        BotonRedondo importar = new BotonRedondo("Importar musica", Estilo.VERDE);
+        importar.addActionListener(e -> importarMusica());
+
         botones.add(atras);
         botones.add(play);
         botones.add(pausa);
         botones.add(stop);
         botones.add(adelante);
+        botones.add(importar);
 
         panel.add(barra, BorderLayout.NORTH);
         panel.add(tiempo, BorderLayout.CENTER);
         panel.add(botones, BorderLayout.SOUTH);
 
         return panel;
+    }
+
+    private void importarMusica() {
+        JFileChooser selector = new JFileChooser();
+        selector.setDialogTitle("Elige la musica de tu computadora");
+        selector.setMultiSelectionEnabled(true);
+
+        if (selector.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File[] elegidos = selector.getSelectedFiles();
+        int copiados = 0;
+
+        for (int i = 0; i < elegidos.length; i++) {
+            if (copiarArchivo(elegidos[i], new File(carpeta, elegidos[i].getName()))) {
+                copiados++;
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Se importaron " + copiados + " archivos");
+        buscarCanciones("");
+    }
+
+    private boolean copiarArchivo(File origen, File destino) {
+        try (FileInputStream entrada = new FileInputStream(origen);
+                FileOutputStream salida = new FileOutputStream(destino)) {
+
+            byte[] datos = new byte[4096];
+            int leidos = entrada.read(datos);
+
+            while (leidos > 0) {
+                salida.write(datos, 0, leidos);
+                leidos = entrada.read(datos);
+            }
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo copiar " + origen.getName());
+            return false;
+        }
     }
 
     private void buscarCanciones(String texto) {

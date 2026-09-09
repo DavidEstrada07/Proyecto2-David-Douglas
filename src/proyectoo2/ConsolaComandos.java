@@ -46,8 +46,36 @@ public class ConsolaComandos extends JInternalFrame {
         setContentPane(contenido);
 
         escribir("Mini-Windows [Consola de comandos]");
-        escribir("Comandos: mkdir, rm, cd, cd.., dir, date, time");
+        escribir("Escribe ayuda para ver la lista de comandos");
+        mostrarAyuda();
         mostrarRuta();
+    }
+
+    private void mostrarAyuda() {
+        escribir("");
+        escribir("COMANDOS DISPONIBLES");
+        escribir("--------------------------------------------------------------");
+        escribir("mkdir <nombre>   Crea una carpeta nueva dentro de la carpeta");
+        escribir("                 actual. Ejemplo: mkdir Tareas");
+        escribir("");
+        escribir("rm <nombre>      Elimina la carpeta indicada con todo lo que");
+        escribir("                 tenga adentro. Ejemplo: rm Tareas");
+        escribir("");
+        escribir("cd <carpeta>     Entra a la carpeta indicada y desde ahi se");
+        escribir("                 ejecutan los demas comandos. Ejemplo: cd Musica");
+        escribir("");
+        escribir("cd..             Sale de la carpeta actual y regresa a la de");
+        escribir("                 arriba. No pasa de tu carpeta personal.");
+        escribir("");
+        escribir("dir              Muestra la lista de carpetas y archivos que");
+        escribir("                 hay en la carpeta actual, con su tamano.");
+        escribir("");
+        escribir("date             Muestra la fecha de hoy del sistema.");
+        escribir("");
+        escribir("time             Muestra la hora actual del sistema.");
+        escribir("");
+        escribir("ayuda            Vuelve a mostrar esta lista.");
+        escribir("--------------------------------------------------------------");
     }
 
     private void mostrarRuta() {
@@ -96,6 +124,8 @@ public class ConsolaComandos extends JInternalFrame {
             entrar(argumento);
         } else if (comando.equals("date")) {
             mostrarFecha();
+        } else if (comando.equals("ayuda") || comando.equals("help")) {
+            mostrarAyuda();
         } else if (comando.equals("time")) {
             mostrarHora();
         } else {

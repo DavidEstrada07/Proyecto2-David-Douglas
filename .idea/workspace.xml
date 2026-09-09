@@ -3,9 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2c82cac8-7e1b-4345-9614-6910510480d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/users.ins" beforeDir="false" afterPath="$PROJECT_DIR$/INSTA_RAIZ/users.ins" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Z/douglAs/texto.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/LoginSistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/LoginSistema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ConsolaComandos.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ConsolaComandos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ConsolaComandos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ConsolaComandos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ExploradorArchivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ExploradorArchivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/PanelInbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/PanelInbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
