@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -95,6 +96,7 @@ public class GestorUsuarios extends JInternalFrame {
     private void crearUsuario() {
         JTextField campoUsuario = new JTextField();
         JPasswordField campoPassword = new JPasswordField();
+        JComboBox<String> tipo = new JComboBox<>(new String[]{"Estándar", "Administrador"});
 
         JPanel panel = new JPanel(new GridLayout(0, 1, 4, 4));
         panel.add(new JLabel("Usuario nuevo:"));
@@ -102,6 +104,8 @@ public class GestorUsuarios extends JInternalFrame {
         panel.add(new JLabel("Contraseña:"));
         panel.add(campoPassword);
         panel.add(new JLabel("8 caracteres, mayúscula, número y símbolo"));
+        panel.add(new JLabel("Tipo de cuenta:"));
+        panel.add(tipo);
 
         int opcion = JOptionPane.showConfirmDialog(this, panel, "Crear usuario del sistema",
                 JOptionPane.OK_CANCEL_OPTION);
@@ -119,7 +123,9 @@ public class GestorUsuarios extends JInternalFrame {
         }
 
         try {
-            ArchivoUsuariosSistema.guardar(new UsuarioSistema(nombre, password, false));
+            boolean administrador = tipo.getSelectedIndex() == 1;
+
+            ArchivoUsuariosSistema.guardar(new UsuarioSistema(nombre, password, administrador));
             SistemaArchivos.crearEspacioSistema(nombre);
             JOptionPane.showMessageDialog(this, "Usuario " + nombre + " creado con su carpeta en Z:\\");
             cargarUsuarios();

@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +24,7 @@ public class LoginSistema extends JFrame {
     private JPasswordField campoPasswordLogin;
 
     private JTextField campoUsuarioRegistro;
+    private JComboBox<String> tipoCuenta;
     private JPasswordField campoPasswordRegistro;
     private JLabel etiquetaReglas;
 
@@ -144,6 +146,11 @@ public class LoginSistema extends JFrame {
 
         JCheckBox mostrar = crearCheckMostrar(campoPasswordRegistro);
 
+        tipoCuenta = new JComboBox<>(new String[]{"Estándar", "Administrador"});
+        tipoCuenta.setBackground(Estilo.PANEL_CLARO);
+        tipoCuenta.setForeground(Estilo.TEXTO);
+        tipoCuenta.setFont(Estilo.NORMAL);
+
         BotonRedondo crear = new BotonRedondo("Crear cuenta", Estilo.VERDE);
         crear.addActionListener(e -> registrar());
 
@@ -165,6 +172,10 @@ public class LoginSistema extends JFrame {
         panel.add(etiquetaReglas);
         panel.add(Box.createVerticalStrut(6));
         panel.add(mostrar);
+        panel.add(Box.createVerticalStrut(14));
+        panel.add(Estilo.crearEtiqueta("Tipo de cuenta"));
+        panel.add(Box.createVerticalStrut(6));
+        panel.add(tipoCuenta);
         panel.add(Box.createVerticalStrut(22));
         panel.add(crear);
         panel.add(Box.createVerticalStrut(10));
@@ -172,6 +183,7 @@ public class LoginSistema extends JFrame {
 
         limitarAltura(campoUsuarioRegistro);
         limitarAltura(campoPasswordRegistro);
+        tipoCuenta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
         return panel;
     }
@@ -264,16 +276,21 @@ public class LoginSistema extends JFrame {
         }
 
         try {
-            boolean administrador = !ArchivoUsuariosSistema.hayUsuarios();
+            boolean administrador = tipoCuenta.getSelectedIndex() == 1;
+
+            if (!ArchivoUsuariosSistema.hayUsuarios()) {
+                administrador = true;
+            }
+
             UsuarioSistema usuario = new UsuarioSistema(username, password, administrador);
 
             ArchivoUsuariosSistema.guardar(usuario);
             SistemaArchivos.crearEspacioSistema(username);
 
-            String mensaje = "Cuenta creada. Ya puedes iniciar sesión.";
+            String mensaje = "Cuenta estándar creada. Ya puedes iniciar sesión.";
 
             if (administrador) {
-                mensaje = "Cuenta creada como administrador del sistema.\nYa puedes iniciar sesión.";
+                mensaje = "Cuenta de administrador creada.\nYa puedes iniciar sesión.";
             }
 
             JOptionPane.showMessageDialog(this, mensaje);
