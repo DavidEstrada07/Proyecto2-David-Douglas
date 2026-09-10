@@ -3,6 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2c82cac8-7e1b-4345-9614-6910510480d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/Escritorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/Escritorio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/VisorImagenes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/VisorImagenes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

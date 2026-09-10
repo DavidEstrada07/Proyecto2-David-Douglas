@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GradientPaint;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -13,7 +14,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Escritorio extends JFrame {
@@ -21,6 +21,7 @@ public class Escritorio extends JFrame {
     private UsuarioSistema usuario;
     private JDesktopPane escritorio;
     private JLabel etiquetaReloj;
+    private JTextField campoBusqueda;
 
     public Escritorio(UsuarioSistema usuario) {
         this.usuario = usuario;
@@ -33,8 +34,10 @@ public class Escritorio extends JFrame {
         escritorio = new FondoEscritorio();
         escritorio.setBackground(Estilo.FONDO);
 
-        add(crearBarra(), BorderLayout.NORTH);
+        crearIconos();
+
         add(escritorio, BorderLayout.CENTER);
+        add(crearBarra(), BorderLayout.SOUTH);
 
         iniciarReloj();
     }
@@ -42,62 +45,114 @@ public class Escritorio extends JFrame {
     private JPanel crearBarra() {
         JPanel barra = new JPanel(new BorderLayout());
         barra.setBackground(Estilo.PANEL);
-        barra.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Estilo.BORDE));
+        barra.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Estilo.BORDE));
 
-        JPanel botones = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 10));
-        botones.setOpaque(false);
-
-        botones.add(crearBoton("Explorador", Estilo.ACENTO));
-        botones.add(crearBoton("Editor", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("Imágenes", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("Consola", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("Música", Estilo.PANEL_CLARO));
-        botones.add(crearBoton("INSTA+", Estilo.ACENTO2));
-
-        if (usuario.esAdministrador()) {
-            botones.add(crearBoton("Usuarios", Estilo.VERDE));
-        }
-
-        JPanel derecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 10));
-        derecha.setOpaque(false);
-
-        etiquetaReloj = new JLabel();
-        etiquetaReloj.setForeground(Estilo.TEXTO_GRIS);
-        etiquetaReloj.setFont(Estilo.PEQUENA);
+        JPanel izquierda = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
+        izquierda.setOpaque(false);
 
         BotonRedondo salir = new BotonRedondo("Cerrar sesión", Estilo.ROJO);
+        salir.compactar();
         salir.addActionListener(e -> cerrarSesion());
+        izquierda.add(salir);
 
+        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        centro.setOpaque(false);
+
+        campoBusqueda = new JTextField(26);
+        campoBusqueda.setBackground(Estilo.PANEL_CLARO);
+        campoBusqueda.setForeground(Estilo.TEXTO);
+        campoBusqueda.setCaretColor(Estilo.TEXTO);
+        campoBusqueda.setFont(Estilo.NORMAL);
+        campoBusqueda.setBorder(BorderFactory.createEmptyBorder(7, 12, 7, 12));
+        campoBusqueda.addActionListener(e -> buscarArchivos());
+
+        BotonRedondo lupa = new BotonRedondo("Buscar", Estilo.ACENTO2);
+        lupa.compactar();
+        lupa.addActionListener(e -> buscarArchivos());
+
+        centro.add(campoBusqueda);
+        centro.add(lupa);
+
+        JPanel derecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 8));
+        derecha.setOpaque(false);
+
+        etiquetaReloj = new JLabel(textoReloj());
+        etiquetaReloj.setForeground(Estilo.TEXTO_GRIS);
+        etiquetaReloj.setFont(Estilo.NORMAL);
+        etiquetaReloj.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 6));
         derecha.add(etiquetaReloj);
-        derecha.add(salir);
 
-        barra.add(botones, BorderLayout.WEST);
+        barra.add(izquierda, BorderLayout.WEST);
+        barra.add(centro, BorderLayout.CENTER);
         barra.add(derecha, BorderLayout.EAST);
 
         return barra;
     }
 
-    private BotonRedondo crearBoton(String texto, Color color) {
-        BotonRedondo boton = new BotonRedondo(texto, color);
-        boton.addActionListener(e -> abrirHerramienta(texto));
-        return boton;
+    private void crearIconos() {
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 16, 16));
+        panel.setOpaque(false);
+
+        panel.add(new IconoEscritorio("Música", "Musica", Estilo.ACENTO, this));
+        panel.add(new IconoEscritorio("Archivos", "Explorador", new Color(232, 168, 56), this));
+        panel.add(new IconoEscritorio("INSTA+", "INSTA+", Estilo.ACENTO2, this));
+        panel.add(new IconoEscritorio("Editor", "Editor", new Color(70, 130, 200), this));
+        panel.add(new IconoEscritorio("Imágenes", "Imagenes", Estilo.VERDE, this));
+        panel.add(new IconoEscritorio("Consola", "Consola", new Color(80, 84, 100), this));
+
+        if (usuario.esAdministrador()) {
+            panel.add(new IconoEscritorio("Usuarios", "Usuarios", new Color(190, 90, 140), this));
+        }
+
+        java.awt.Dimension medida = panel.getPreferredSize();
+        panel.setBounds(20, 20, medida.width, medida.height);
+
+        escritorio.add(panel, Integer.valueOf(-1));
     }
 
-    private void abrirHerramienta(String nombre) {
+    private void buscarArchivos() {
+        String texto = campoBusqueda.getText().trim();
+
+        if (texto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Escribe el nombre de un archivo o carpeta");
+            return;
+        }
+
+        mostrar(new BuscadorArchivos(carpetaInicial(), texto, this));
+    }
+
+    public void abrirArchivo(File archivo) {
+        if (archivo.isDirectory()) {
+            mostrar(new ExploradorArchivos(usuario, this));
+            return;
+        }
+
+        String nombre = archivo.getName();
+
+        if (OrganizadorArchivos.esImagen(nombre)) {
+            mostrar(new VisorImagenes(archivo.getParent()));
+        } else if (OrganizadorArchivos.esMusica(nombre)) {
+            mostrar(new ReproductorMusica(archivo.getParent()));
+        } else {
+            mostrar(new EditorTexto(archivo.getParent()));
+        }
+    }
+
+    public void abrirHerramienta(String nombre) {
         if (nombre.equals("Explorador")) {
             mostrar(new ExploradorArchivos(usuario, this));
         } else if (nombre.equals("Editor")) {
             mostrar(new EditorTexto(carpetaInicial()));
-        } else if (nombre.equals("Imágenes")) {
+        } else if (nombre.equals("Imagenes")) {
             mostrar(new VisorImagenes(carpetaInicial()));
         } else if (nombre.equals("Consola")) {
             mostrar(new ConsolaComandos(carpetaInicial()));
-        } else if (nombre.equals("Música")) {
+        } else if (nombre.equals("Musica")) {
             mostrar(new ReproductorMusica(carpetaInicial()));
         } else if (nombre.equals("INSTA+")) {
             mostrar(new VentanaInstaPlus());
         } else if (nombre.equals("Usuarios")) {
-            crearUsuarioNuevo();
+            mostrar(new GestorUsuarios());
         }
     }
 
@@ -112,6 +167,10 @@ public class Escritorio extends JFrame {
         }
     }
 
+    public boolean esAdministrador() {
+        return usuario.esAdministrador();
+    }
+
     public String carpetaInicial() {
         if (usuario.esAdministrador()) {
             return SistemaArchivos.UNIDAD;
@@ -120,43 +179,18 @@ public class Escritorio extends JFrame {
         return SistemaArchivos.carpetaSistema(usuario.getUsername());
     }
 
-    private void crearUsuarioNuevo() {
-        JTextField campoUsuario = new JTextField();
-        JPasswordField campoPassword = new JPasswordField();
+    private String textoReloj() {
+        java.util.Calendar calendario = java.util.Calendar.getInstance();
 
-        JPanel panel = new JPanel(new java.awt.GridLayout(0, 1, 4, 4));
-        panel.add(new JLabel("Usuario nuevo:"));
-        panel.add(campoUsuario);
-        panel.add(new JLabel("Contraseña:"));
-        panel.add(campoPassword);
-        panel.add(new JLabel("8 caracteres, mayúscula, número y símbolo"));
+        int hora = calendario.get(java.util.Calendar.HOUR_OF_DAY);
+        int minuto = calendario.get(java.util.Calendar.MINUTE);
+        String minutoTexto = "" + minuto;
 
-        int opcion = JOptionPane.showConfirmDialog(this, panel, "Crear usuario del sistema",
-                JOptionPane.OK_CANCEL_OPTION);
-
-        if (opcion != JOptionPane.OK_OPTION) {
-            return;
+        if (minuto < 10) {
+            minutoTexto = "0" + minuto;
         }
 
-        String nombre = campoUsuario.getText().trim();
-        String password = new String(campoPassword.getPassword());
-
-        if (!ValidadorPassword.esValida(password)) {
-            JOptionPane.showMessageDialog(this, ValidadorPassword.obtenerMensaje(password));
-            return;
-        }
-
-        try {
-            ArchivoUsuariosSistema.guardar(new UsuarioSistema(nombre, password, false));
-            SistemaArchivos.crearEspacioSistema(nombre);
-            JOptionPane.showMessageDialog(this, "Usuario " + nombre + " creado con su carpeta en Z:\\");
-        } catch (UsernameDuplicadoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (ArchivoCorruptoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        return usuario.getUsername() + "   |   " + hora + ":" + minutoTexto;
     }
 
     private void iniciarReloj() {
@@ -164,22 +198,13 @@ public class Escritorio extends JFrame {
             @Override
             public void run() {
                 while (true) {
-                    java.util.Calendar calendario = java.util.Calendar.getInstance();
-
-                    int hora = calendario.get(java.util.Calendar.HOUR_OF_DAY);
-                    int minuto = calendario.get(java.util.Calendar.MINUTE);
-                    String minutoTexto = "" + minuto;
-
-                    if (minuto < 10) {
-                        minutoTexto = "0" + minuto;
-                    }
-
-                    final String texto = usuario.getUsername() + "   |   " + hora + ":" + minutoTexto + "   ";
+                    final String texto = textoReloj();
 
                     javax.swing.SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
                             etiquetaReloj.setText(texto);
+                            etiquetaReloj.getParent().revalidate();
                         }
                     });
 

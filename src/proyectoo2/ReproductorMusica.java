@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.io.File;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import javax.swing.JOptionPane;
@@ -177,6 +178,7 @@ public class ReproductorMusica extends JInternalFrame {
         JFileChooser selector = new JFileChooser();
         selector.setDialogTitle("Elige la musica de tu computadora");
         selector.setMultiSelectionEnabled(true);
+        selector.setFileFilter(new FileNameExtensionFilter("Musica", "mp3", "wav", "au", "aiff"));
 
         if (selector.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
