@@ -132,7 +132,7 @@ public class Escritorio extends JFrame {
         if (OrganizadorArchivos.esImagen(nombre)) {
             mostrar(new VisorImagenes(archivo.getParent()));
         } else if (OrganizadorArchivos.esMusica(nombre)) {
-            mostrar(new ReproductorMusica(archivo.getParent()));
+            mostrar(new ReproductorMusica(archivo.getParent(), carpetaMusica()));
         } else {
             mostrar(new EditorTexto(archivo.getParent()));
         }
@@ -148,7 +148,7 @@ public class Escritorio extends JFrame {
         } else if (nombre.equals("Consola")) {
             mostrar(new ConsolaComandos(carpetaInicial()));
         } else if (nombre.equals("Musica")) {
-            mostrar(new ReproductorMusica(carpetaInicial()));
+            mostrar(new ReproductorMusica(carpetaMusica(), carpetaMusica()));
         } else if (nombre.equals("INSTA+")) {
             mostrar(new VentanaInstaPlus());
         } else if (nombre.equals("Usuarios")) {
@@ -177,6 +177,11 @@ public class Escritorio extends JFrame {
         }
 
         return SistemaArchivos.carpetaSistema(usuario.getUsername());
+    }
+
+    public String carpetaMusica() {
+        return usuario.obtenerCarpetaRaiz().replace("Z:\\", "Z" + java.io.File.separator)
+                + java.io.File.separator + "Musica";
     }
 
     private String textoReloj() {

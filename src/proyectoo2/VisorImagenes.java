@@ -66,13 +66,9 @@ public class VisorImagenes extends JInternalFrame {
         BotonRedondo cambiar = new BotonRedondo("Abrir carpeta", Estilo.PANEL);
         cambiar.addActionListener(e -> cambiarCarpeta());
 
-        BotonRedondo importar = new BotonRedondo("Importar imagenes", Estilo.VERDE);
-        importar.addActionListener(e -> importarImagenes());
-
         barra.add(anterior);
         barra.add(siguiente);
         barra.add(cambiar);
-        barra.add(importar);
 
         return barra;
     }
@@ -167,48 +163,6 @@ public class VisorImagenes extends JInternalFrame {
             return new ImageIcon(javax.imageio.ImageIO.read(new File(ruta)));
         } catch (Exception e) {
             return new ImageIcon();
-        }
-    }
-
-    private void importarImagenes() {
-        JFileChooser selector = new JFileChooser();
-        selector.setDialogTitle("Elige las imagenes de tu computadora");
-        selector.setMultiSelectionEnabled(true);
-        selector.setFileFilter(new FileNameExtensionFilter("Imagenes", "png", "jpg", "jpeg", "gif", "bmp"));
-
-        if (selector.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-
-        File[] elegidos = selector.getSelectedFiles();
-        int copiadas = 0;
-
-        for (int i = 0; i < elegidos.length; i++) {
-            if (copiarArchivo(elegidos[i], new File(carpeta, elegidos[i].getName()))) {
-                copiadas++;
-            }
-        }
-
-        JOptionPane.showMessageDialog(this, "Se importaron " + copiadas + " imagenes");
-        cargarEnHilo();
-    }
-
-    private boolean copiarArchivo(File origen, File destino) {
-        try (FileInputStream entrada = new FileInputStream(origen);
-                FileOutputStream salida = new FileOutputStream(destino)) {
-
-            byte[] datos = new byte[4096];
-            int leidos = entrada.read(datos);
-
-            while (leidos > 0) {
-                salida.write(datos, 0, leidos);
-                leidos = entrada.read(datos);
-            }
-
-            return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "No se pudo copiar " + origen.getName());
-            return false;
         }
     }
 

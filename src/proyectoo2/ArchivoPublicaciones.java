@@ -25,7 +25,7 @@ public class ArchivoPublicaciones {
         for (int i = 0; i < usuarios.getTamano(); i++) {
             Usuario usuario = (Usuario) usuarios.obtener(i);
 
-            if (usuario.estaActiva()) {
+            if (usuario.estaActiva() && puedeVer(usuario, username)) {
                 agregarTodas(timeline, listar(usuario.getUsername()));
             }
         }
@@ -51,14 +51,20 @@ public class ArchivoPublicaciones {
         return ordenar(timeline);
     }
 
-    public static ListaEnlazada buscarPorHashtag(String palabra) throws ArchivoCorruptoException {
+    public static boolean puedeVer(Usuario duenio, String quienMira) throws ArchivoCorruptoException {
+        boolean loSigue = ArchivoSeguidores.sigue(quienMira, duenio.getUsername());
+
+        return duenio.puedeVerSusPublicaciones(quienMira, loSigue);
+    }
+
+    public static ListaEnlazada buscarPorHashtag(String palabra, String quienMira) throws ArchivoCorruptoException {
         ListaEnlazada resultado = new ListaEnlazada();
         ListaEnlazada usuarios = ArchivoUsuarios.listar();
 
         for (int i = 0; i < usuarios.getTamano(); i++) {
             Usuario usuario = (Usuario) usuarios.obtener(i);
 
-            if (!usuario.estaActiva()) {
+            if (!usuario.estaActiva() || !puedeVer(usuario, quienMira)) {
                 continue;
             }
 
@@ -84,6 +90,10 @@ public class ArchivoPublicaciones {
             Usuario usuario = (Usuario) usuarios.obtener(i);
 
             if (!usuario.estaActiva() || usuario.getUsername().equalsIgnoreCase(username)) {
+                continue;
+            }
+
+            if (!puedeVer(usuario, username)) {
                 continue;
             }
 

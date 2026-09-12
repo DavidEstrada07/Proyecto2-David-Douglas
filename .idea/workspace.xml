@@ -2,8 +2,69 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c82cac8-7e1b-4345-9614-6910510480d4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Bad Bunny/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Bad Bunny/following.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Bad Bunny/inbox.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Bad Bunny/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/David2007/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/David2007/following.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/David2007/inbox.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/David2007/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Paulo Londra/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Paulo Londra/following.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Paulo Londra/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Spiderman/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Spiderman/following.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Spiderman/imagenes/1788760394699_trenspiderman.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Spiderman/insta.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/Spiderman/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ss=/following.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ss=/insta.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ss=/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssss/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssss/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssssa/followers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssssa/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssssas/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssssssas/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/ssssssass/stickers.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/stickers_globales/aplauso.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/stickers_globales/corazon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/stickers_globales/feliz.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/stickers_globales/risa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/stickers_globales/triste.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/INSTA_RAIZ/users.ins" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Z/lupen77-techno-dystopia-398485.wav" beforeDir="false" afterPath="$PROJECT_DIR$/Z/lupen77-techno-dystopia-398485.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ArchivoPublicaciones.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ArchivoPublicaciones.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$FondoEscritorio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio$FondoEscritorio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Escritorio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ExploradorArchivos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/GestorUsuarios.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/GestorUsuarios.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelBuscarHashtag.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelBuscarHashtag.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelBuscarPerfil.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelBuscarPerfil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelInstaLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/PanelInstaLogin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/ReproductorMusica.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Proyecto2-David-Douglas/proyectoo2/VisorImagenes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ArchivoPublicaciones.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ArchivoPublicaciones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/Escritorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/Escritorio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ExploradorArchivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ExploradorArchivos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/proyectoo2/GestorUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/GestorUsuarios.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proyectoo2/LoginSistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/LoginSistema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/PanelBuscarHashtag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/PanelBuscarHashtag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/PanelBuscarPerfil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/PanelBuscarPerfil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/PanelInstaLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/PanelInstaLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/ReproductorMusica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proyectoo2/VisorImagenes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proyectoo2/VisorImagenes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios.sop" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios.sop" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

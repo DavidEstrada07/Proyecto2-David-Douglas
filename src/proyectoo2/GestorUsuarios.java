@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -103,6 +104,16 @@ public class GestorUsuarios extends JInternalFrame {
         panel.add(campoUsuario);
         panel.add(new JLabel("Contraseña:"));
         panel.add(campoPassword);
+        JCheckBox mostrar = new JCheckBox("Mostrar contraseña");
+        mostrar.addActionListener(e -> {
+            if (mostrar.isSelected()) {
+                campoPassword.setEchoChar((char) 0);
+            } else {
+                campoPassword.setEchoChar('\u2022');
+            }
+        });
+
+        panel.add(mostrar);
         panel.add(new JLabel("8 caracteres, mayúscula, número y símbolo"));
         panel.add(new JLabel("Tipo de cuenta:"));
         panel.add(tipo);

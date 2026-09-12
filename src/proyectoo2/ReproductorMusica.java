@@ -49,9 +49,12 @@ public class ReproductorMusica extends JInternalFrame {
     private HiloReproductor hilo;
 
     private String carpeta;
+    private String carpetaMusica;
 
-    public ReproductorMusica(String carpeta) {
+    public ReproductorMusica(String carpeta, String carpetaMusica) {
         super("Reproductor de música", true, true, true, true);
+
+        this.carpetaMusica = carpetaMusica;
 
         this.carpeta = carpeta;
         canciones = new ListaEnlazada();
@@ -188,13 +191,24 @@ public class ReproductorMusica extends JInternalFrame {
         int copiados = 0;
 
         for (int i = 0; i < elegidos.length; i++) {
-            if (copiarArchivo(elegidos[i], new File(carpeta, elegidos[i].getName()))) {
+            if (copiarArchivo(elegidos[i], new File(destino(), elegidos[i].getName()))) {
                 copiados++;
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Se importaron " + copiados + " archivos");
+        JOptionPane.showMessageDialog(this, "Se importaron " + copiados + " archivos en " + destino().getName());
+        carpeta = destino().getPath();
         buscarCanciones("");
+    }
+
+    private File destino() {
+        File musica = new File(carpetaMusica);
+
+        if (!musica.exists()) {
+            musica.mkdirs();
+        }
+
+        return musica;
     }
 
     private boolean copiarArchivo(File origen, File destino) {

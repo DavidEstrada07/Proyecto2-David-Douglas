@@ -13,6 +13,7 @@ public class Usuario implements Serializable {
     private Date fechaRegistro;
     private int edad;
     private boolean cuentaActiva;
+    private boolean privada;
     private String fotoPerfil;
 
     public Usuario(String nombreCompleto, char genero, String username, String password, int edad, String fotoPerfil) {
@@ -26,6 +27,7 @@ public class Usuario implements Serializable {
 
         fechaRegistro = new Date();
         cuentaActiva = true;
+        privada = false;
     }
 
     public String getUsername() {
@@ -108,6 +110,26 @@ public class Usuario implements Serializable {
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public boolean esPrivada() {
+        return privada;
+    }
+
+    public void setPrivada(boolean privada) {
+        this.privada = privada;
+    }
+
+    public boolean puedeVerSusPublicaciones(String quienMira, boolean loSigue) {
+        if (!privada) {
+            return true;
+        }
+
+        if (getUsername().equalsIgnoreCase(quienMira)) {
+            return true;
+        }
+
+        return loSigue;
     }
 
     public boolean estaActiva() {

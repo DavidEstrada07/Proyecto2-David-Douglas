@@ -13,6 +13,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JSplitPane;
+import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -24,6 +30,11 @@ public class ExploradorArchivos extends JInternalFrame {
     private Escritorio escritorio;
     private JTree arbol;
     private JComboBox<String> orden;
+    private JTable tabla;
+    private DefaultTableModel modeloTabla;
+    private JLabel barraRuta;
+    private JLabel barraEstado;
+    private File carpetaActual;
     private File copiado;
 
     public ExploradorArchivos(UsuarioSistema usuario, Escritorio escritorio) {
@@ -43,17 +54,31 @@ public class ExploradorArchivos extends JInternalFrame {
         arbol.setForeground(Estilo.TEXTO);
         arbol.setFont(Estilo.NORMAL);
         arbol.setRowHeight(24);
+        arbol.setOpaque(true);
+        arbol.setCellRenderer(new RenderizadorArbol());
 
-        JScrollPane scroll = new JScrollPane(arbol);
-        scroll.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
-        scroll.getViewport().setBackground(Estilo.PANEL);
+        JScrollPane scrollArbol = new JScrollPane(arbol);
+        scrollArbol.setBorder(null);
+        scrollArbol.getViewport().setBackground(Estilo.PANEL);
+
+        JSplitPane division = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollArbol, crearLista());
+        division.setDividerLocation(230);
+        division.setBorder(null);
+        division.setBackground(Estilo.PANEL);
+
+        JPanel centro = new JPanel(new BorderLayout());
+        centro.setBackground(Estilo.PANEL);
+        centro.add(crearBarraRuta(), BorderLayout.NORTH);
+        centro.add(division, BorderLayout.CENTER);
 
         contenido.add(crearBarra(), BorderLayout.NORTH);
-        contenido.add(scroll, BorderLayout.CENTER);
+        contenido.add(centro, BorderLayout.CENTER);
+        contenido.add(crearBarraEstado(), BorderLayout.SOUTH);
 
         setContentPane(contenido);
         recargar();
         agregarDobleClic();
+        agregarSeleccionArbol();
     }
 
     private JPanel crearBarra() {
@@ -91,6 +116,167 @@ public class ExploradorArchivos extends JInternalFrame {
         return barra;
     }
 
+    private JScrollPane crearLista() {
+        modeloTabla = new DefaultTableModel(new String[]{"Nombre", "Tipo", "Tamano", "Modificado"}, 0) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+
+        tabla = new JTable(modeloTabla);
+        tabla.setBackground(Estilo.PANEL);
+        tabla.setForeground(Estilo.TEXTO);
+        tabla.setFont(Estilo.NORMAL);
+        tabla.setRowHeight(26);
+        tabla.setGridColor(Estilo.PANEL_CLARO);
+        tabla.setSelectionBackground(Estilo.ACENTO);
+        tabla.setSelectionForeground(java.awt.Color.WHITE);
+        tabla.getTableHeader().setBackground(Estilo.PANEL_CLARO);
+        tabla.getTableHeader().setForeground(Estilo.TEXTO);
+        tabla.getTableHeader().setFont(Estilo.NORMAL);
+
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(230);
+        tabla.getColumnModel().getColumn(1).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(130);
+
+        tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    abrirDeLaTabla();
+                }
+            }
+        });
+
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setBorder(null);
+        scroll.getViewport().setBackground(Estilo.PANEL);
+
+        return scroll;
+    }
+
+    private JPanel crearBarraRuta() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Estilo.PANEL_CLARO);
+
+        barraRuta = new JLabel("  Z:\\");
+        barraRuta.setForeground(Estilo.TEXTO);
+        barraRuta.setFont(Estilo.NORMAL);
+        barraRuta.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+
+        panel.add(barraRuta, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private JPanel crearBarraEstado() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Estilo.PANEL_CLARO);
+
+        barraEstado = new JLabel("  ");
+        barraEstado.setForeground(Estilo.TEXTO_GRIS);
+        barraEstado.setFont(Estilo.PEQUENA);
+        barraEstado.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
+
+        panel.add(barraEstado, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private void agregarSeleccionArbol() {
+        arbol.addTreeSelectionListener(e -> {
+            File elegido = seleccionadoDelArbol();
+
+            if (elegido != null && elegido.isDirectory()) {
+                mostrarContenido(elegido);
+            }
+        });
+    }
+
+    private void refrescarTabla() {
+        if (carpetaActual != null && carpetaActual.exists()) {
+            mostrarContenido(carpetaActual);
+        }
+    }
+
+    private void mostrarContenido(File carpeta) {
+        carpetaActual = carpeta;
+        modeloTabla.setRowCount(0);
+        barraRuta.setText("  " + carpeta.getPath().replace("Z" + File.separator, "Z:" + File.separator));
+
+        File[] archivos = carpeta.listFiles();
+
+        if (archivos == null) {
+            return;
+        }
+
+        ordenarArchivos(archivos);
+
+        int carpetas = 0;
+
+        for (int i = 0; i < archivos.length; i++) {
+            modeloTabla.addRow(new Object[]{archivos[i].getName(), tipo(archivos[i]),
+                peso(archivos[i]), fecha(archivos[i])});
+
+            if (archivos[i].isDirectory()) {
+                carpetas++;
+            }
+        }
+
+        barraEstado.setText("  " + carpetas + " carpetas, " + (archivos.length - carpetas) + " archivos");
+    }
+
+    private String tipo(File archivo) {
+        if (archivo.isDirectory()) {
+            return "Carpeta";
+        }
+
+        if (OrganizadorArchivos.esImagen(archivo.getName())) {
+            return "Imagen";
+        }
+
+        if (OrganizadorArchivos.esMusica(archivo.getName())) {
+            return "Musica";
+        }
+
+        return "Documento";
+    }
+
+    private String peso(File archivo) {
+        if (archivo.isDirectory()) {
+            return "";
+        }
+
+        return (archivo.length() / 1024) + " KB";
+    }
+
+    private String fecha(File archivo) {
+        java.util.Calendar calendario = java.util.Calendar.getInstance();
+        calendario.setTimeInMillis(archivo.lastModified());
+
+        int dia = calendario.get(java.util.Calendar.DAY_OF_MONTH);
+        int mes = calendario.get(java.util.Calendar.MONTH) + 1;
+        int anio = calendario.get(java.util.Calendar.YEAR);
+
+        return dia + "/" + mes + "/" + anio;
+    }
+
+    private void abrirDeLaTabla() {
+        File elegido = seleccionado();
+
+        if (elegido == null) {
+            return;
+        }
+
+        if (elegido.isDirectory()) {
+            mostrarContenido(elegido);
+        } else {
+            abrir(elegido);
+        }
+    }
+
     private BotonRedondo crearBoton(String texto, java.awt.Color color, ActionListener accion) {
         BotonRedondo boton = new BotonRedondo(texto, color);
 
@@ -111,6 +297,12 @@ public class ExploradorArchivos extends JInternalFrame {
         for (int i = 0; i < arbol.getRowCount(); i++) {
             arbol.expandRow(i);
         }
+
+        if (carpetaActual == null) {
+            carpetaActual = raiz;
+        }
+
+        refrescarTabla();
     }
 
     private void llenar(DefaultMutableTreeNode nodo, File carpeta) {
@@ -173,7 +365,7 @@ public class ExploradorArchivos extends JInternalFrame {
         return nombre.substring(punto);
     }
 
-    private File seleccionado() {
+    private File seleccionadoDelArbol() {
         DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
 
         if (nodo == null) {
@@ -183,6 +375,16 @@ public class ExploradorArchivos extends JInternalFrame {
 
         ArchivoNodo dato = (ArchivoNodo) nodo.getUserObject();
         return dato.getArchivo();
+    }
+
+    private File seleccionado() {
+        int fila = tabla.getSelectedRow();
+
+        if (fila >= 0 && carpetaActual != null) {
+            return new File(carpetaActual, (String) modeloTabla.getValueAt(fila, 0));
+        }
+
+        return seleccionadoDelArbol();
     }
 
     private void organizar() {
@@ -375,14 +577,14 @@ public class ExploradorArchivos extends JInternalFrame {
     }
 
     private void abrirSeleccionado() {
-        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
+        File archivo = seleccionadoDelArbol();
 
-        if (nodo == null) {
-            return;
+        if (archivo != null) {
+            abrir(archivo);
         }
+    }
 
-        File archivo = ((ArchivoNodo) nodo.getUserObject()).getArchivo();
-
+    private void abrir(File archivo) {
         if (archivo.isDirectory()) {
             return;
         }
@@ -392,11 +594,13 @@ public class ExploradorArchivos extends JInternalFrame {
         if (OrganizadorArchivos.esImagen(nombre)) {
             escritorio.mostrar(new VisorImagenes(archivo.getParent()));
         } else if (OrganizadorArchivos.esMusica(nombre)) {
-            escritorio.mostrar(new ReproductorMusica(archivo.getParent()));
+            escritorio.mostrar(new ReproductorMusica(archivo.getParent(), escritorio.carpetaMusica()));
         } else if (nombre.toLowerCase().endsWith(".txt")) {
             EditorTexto editor = new EditorTexto(archivo.getParent());
             escritorio.mostrar(editor);
             editor.abrirArchivo(archivo);
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay un programa para abrir " + nombre);
         }
     }
 }

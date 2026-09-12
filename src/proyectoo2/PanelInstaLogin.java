@@ -27,6 +27,7 @@ public class PanelInstaLogin extends PanelInsta {
     private JPasswordField passwordRegistro;
     private JTextField edadRegistro;
     private JComboBox<String> generoRegistro;
+    private JComboBox<String> privacidadRegistro;
     private JLabel reglas;
     private JLabel rutaFoto;
 
@@ -98,6 +99,7 @@ public class PanelInstaLogin extends PanelInsta {
         passwordRegistro = new JPasswordField();
         edadRegistro = new JTextField();
         generoRegistro = new JComboBox<>(new String[]{"M", "F"});
+        privacidadRegistro = new JComboBox<>(new String[]{"Publica", "Privada"});
 
         Estilo.darEstiloCampo(nombreRegistro);
         Estilo.darEstiloCampo(usuarioRegistro);
@@ -109,6 +111,7 @@ public class PanelInstaLogin extends PanelInsta {
         limitar(passwordRegistro);
         limitar(edadRegistro);
         generoRegistro.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+        privacidadRegistro.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
 
         reglas = new JLabel("Mínimo 8 caracteres, una mayúscula, un número y un símbolo");
         reglas.setFont(Estilo.PEQUENA);
@@ -150,6 +153,10 @@ public class PanelInstaLogin extends PanelInsta {
         panel.add(Box.createVerticalStrut(8));
         panel.add(Estilo.crearEtiqueta("Genero"));
         panel.add(generoRegistro);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(Estilo.crearEtiqueta("Tipo de cuenta (privada = solo tus seguidores ven tus posts)"));
+        panel.add(Box.createVerticalStrut(4));
+        panel.add(privacidadRegistro);
         panel.add(Box.createVerticalStrut(10));
         panel.add(foto);
         panel.add(rutaFoto);
@@ -248,6 +255,7 @@ public class PanelInstaLogin extends PanelInsta {
         passwordRegistro.setText("");
         edadRegistro.setText("");
         generoRegistro.setSelectedIndex(0);
+        privacidadRegistro.setSelectedIndex(0);
         rutaFoto.setText("Sin foto seleccionada");
         revisarReglas();
     }
@@ -269,9 +277,11 @@ public class PanelInstaLogin extends PanelInsta {
                 foto = "";
             }
 
+            boolean privada = privacidadRegistro.getSelectedIndex() == 1;
             Usuario usuario = new Usuario(nombreRegistro.getText().trim(), genero,
                     usuarioRegistro.getText().trim(), password, edad, foto);
 
+            usuario.setPrivada(privada);
             ArchivoUsuarios.guardar(usuario);
 
             JOptionPane.showMessageDialog(this, "Cuenta creada, ya puedes iniciar sesión");

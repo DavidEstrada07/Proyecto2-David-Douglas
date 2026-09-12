@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import java.io.File;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -135,8 +138,12 @@ public class PanelBuscarPerfil extends PanelInsta {
             int followers = ArchivoSeguidores.listarFollowers(username).getTamano();
             int following = ArchivoSeguidores.listarFollowing(username).getTamano();
 
+            detalle.add(crearFoto(usuario.getFotoPerfil()));
+            detalle.add(Box.createVerticalStrut(10));
+
             JLabel datos = new JLabel("<html><span style='font-size:15pt'><b>" + usuario.getNombreCompleto()
                     + "</b></span><br>@" + usuario.getUsername() + "<br><br>"
+                    + "Cuenta: " + (usuario.esPrivada() ? "Privada" : "Publica") + "<br>"
                     + "Genero: " + usuario.getGenero() + " &nbsp; Edad: " + usuario.getEdad() + "<br>"
                     + "Ingreso: " + usuario.obtenerFechaRegistroTexto() + "<br><br>"
                     + "<b>" + followers + "</b> followers &nbsp; <b>" + following + "</b> following</html>");
@@ -169,6 +176,15 @@ public class PanelBuscarPerfil extends PanelInsta {
             detalle.add(titulo);
             detalle.add(Box.createVerticalStrut(6));
 
+            if (!usuario.puedeVerSusPublicaciones(yo, siguiendo)) {
+                JLabel aviso = Estilo.crearEtiqueta("Esta cuenta es privada. Siguela para ver sus publicaciones.");
+                aviso.setAlignmentX(0f);
+                detalle.add(aviso);
+                detalle.revalidate();
+                detalle.repaint();
+                return;
+            }
+
             ListaEnlazada publicaciones = ArchivoPublicaciones.listarOrdenadas(username);
 
             for (int i = 0; i < publicaciones.getTamano(); i++) {
@@ -183,6 +199,36 @@ public class PanelBuscarPerfil extends PanelInsta {
 
         detalle.revalidate();
         detalle.repaint();
+    }
+
+    private JLabel crearFoto(String ruta) {
+        JLabel foto = new JLabel();
+
+        foto.setAlignmentX(0f);
+        foto.setHorizontalAlignment(JLabel.CENTER);
+        foto.setPreferredSize(new Dimension(120, 120));
+        foto.setMaximumSize(new Dimension(120, 120));
+        foto.setOpaque(true);
+        foto.setBackground(Estilo.PANEL_CLARO);
+
+        String camino = ruta;
+
+        if (camino == null) {
+            camino = "";
+        }
+
+        File archivo = new File(camino);
+
+        if (archivo.exists() && archivo.isFile()) {
+            Image escalada = new ImageIcon(archivo.getPath()).getImage()
+                    .getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+            foto.setIcon(new ImageIcon(escalada));
+        } else {
+            foto.setText("<html><div style='font-size:36px'>&#9787;</div></html>");
+            foto.setForeground(Estilo.ACENTO);
+        }
+
+        return foto;
     }
 
     private void cambiarSeguimiento(String username, boolean siguiendo) {
